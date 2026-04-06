@@ -738,10 +738,10 @@ const ListView = ({ filteredReservations, showPastReservations, handleEdit, hand
             <div className="flex justify-between items-start mb-3">
               <div className="flex-1">
                 <div className="font-bold text-lg text-gray-800">
-                  {reservation.socio === 'Otro' ? reservation.otro_usuario : reservation.socio}
+                  {reservation.Socio === 'Otro' ? reservation.Otro_usuario : reservation.Socio}
                 </div>
                 <div className="text-sm text-gray-600">
-                  {formatDateTime(reservation.fecha_salida, reservation.hora_salida)} → {formatDateTime(reservation.fecha_regreso, reservation.hora_regreso)}
+                  {formatDateTime(reservation.Fecha_salida, reservation.hora_salida)} → {formatDateTime(reservation.Fecha_regreso, reservation.Hora_regreso)}
                 </div>
               </div>
               <div className="flex gap-2">
@@ -771,17 +771,17 @@ const ListView = ({ filteredReservations, showPastReservations, handleEdit, hand
               <div className="flex items-center gap-2">
                 <span className="text-gray-600">Ruta:</span>
                 <span className="font-medium">
-                  {reservation.origen} → {reservation.destino}
-                  {reservation.regresa_al_origen && ' (ida y vuelta)'}
+                  {reservation.Origen} → {reservation.Destino}
+                  {reservation.Regresa_al_origen && ' (ida y vuelta)'}
                 </span>
               </div>
-              {reservation.notas && (
+              {reservation.Notas && (
                 <div className="text-gray-600 mt-2 pt-2 border-t">
-                  {reservation.notas}
+                  {reservation.Notas}
                 </div>
               )}
               <div className="text-xs text-gray-500 mt-2">
-                Creado por: {reservation.creado_por}
+                Creado por: {reservation.Creado_por}
               </div>
             </div>
 
@@ -828,26 +828,26 @@ const ListView = ({ filteredReservations, showPastReservations, handleEdit, hand
               <React.Fragment key={reservation.id}>
                 <tr className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-sm">
-                    {formatDateTime(reservation.fecha_salida, reservation.hora_salida)}
+                    {formatDateTime(reservation.Fecha_salida, reservation.hora_salida)}
                   </td>
                   <td className="px-4 py-3 text-sm">
-                    {formatDateTime(reservation.fecha_regreso, reservation.hora_regreso)}
+                    {formatDateTime(reservation.Fecha_regreso, reservation.Hora_regreso)}
                   </td>
                   <td className="px-4 py-3 text-sm font-medium">
-                    {reservation.socio === 'Otro' ? reservation.otro_usuario : reservation.socio}
+                    {reservation.Socio === 'Otro' ? reservation.Otro_usuario : reservation.Socio}
                   </td>
                   <td className="px-4 py-3 text-sm">
-                    {reservation.origen} → {reservation.destino}
-                    {reservation.regresa_al_origen && <span className="text-gray-500"> (ida y vuelta)</span>}
+                    {reservation.Origen} → {reservation.Destino}
+                    {reservation.Regresa_al_origen && <span className="text-gray-500"> (ida y vuelta)</span>}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-600">
-                    {reservation.notas ? (
-                      reservation.notas.length > 50 
-                        ? reservation.notas.substring(0, 50) + '...' 
-                        : reservation.notas
+                    {reservation.Notas ? (
+                      reservation.Notas.length > 50 
+                        ? reservation.Notas.substring(0, 50) + '...' 
+                        : reservation.Notas
                     ) : '-'}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{reservation.creado_por}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">{reservation.Creado_por}</td>
                   <td className="px-4 py-3">
                     <div className="flex justify-center gap-2">
                       <button
@@ -909,7 +909,7 @@ const ListView = ({ filteredReservations, showPastReservations, handleEdit, hand
 };
 
 const ReservationModal = ({ reservation, onClose, onEdit, onDelete, onExport, formatDate, formatDateTime }) => {
-  const socioName = reservation.socio === 'Otro' ? reservation.otro_usuario : reservation.socio;
+  const socioName = reservation.Socio === 'Otro' ? reservation.Otro_usuario : reservation.Socio;
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={onClose}>
@@ -930,28 +930,28 @@ const ReservationModal = ({ reservation, onClose, onEdit, onDelete, onExport, fo
           <div>
             <span className="text-sm font-medium text-gray-600">Fechas:</span>
             <p className="text-gray-800">
-              {formatDateTime(reservation.fecha_salida, reservation.hora_salida)} → {formatDateTime(reservation.fecha_regreso, reservation.hora_regreso)}
+              {formatDateTime(reservation.Fecha_salida, reservation.hora_salida)} → {formatDateTime(reservation.Fecha_regreso, reservation.Hora_regreso)}
             </p>
           </div>
 
           <div>
             <span className="text-sm font-medium text-gray-600">Ruta:</span>
             <p className="text-gray-800">
-              {reservation.origen} → {reservation.destino}
-              {reservation.regresa_al_origen && ' (ida y vuelta)'}
+              {reservation.Origen} → {reservation.Destino}
+              {reservation.Regresa_al_origen && ' (ida y vuelta)'}
             </p>
           </div>
 
-          {reservation.notas && (
+          {reservation.Notas && (
             <div>
               <span className="text-sm font-medium text-gray-600">Notas:</span>
-              <p className="text-gray-800 whitespace-pre-wrap">{reservation.notas}</p>
+              <p className="text-gray-800 whitespace-pre-wrap">{reservation.Notas}</p>
             </div>
           )}
 
           <div>
             <span className="text-sm font-medium text-gray-600">Creado por:</span>
-            <p className="text-gray-800">{reservation.creado_por}</p>
+            <p className="text-gray-800">{reservation.Creado_por}</p>
           </div>
         </div>
 
