@@ -512,7 +512,7 @@ const YachtReservationSystem = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
               <Calendar className="text-blue-600" size={32} />
-              Reservas del Yate
+              Reservas del Pearl Cat
             </h1>
             <button
               onClick={() => setShowForm(true)}
