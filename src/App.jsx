@@ -227,90 +227,74 @@ const YachtReservationSystem = () => {
   };
 
   const generateICS = async (reservation) => {
-    const formatICSDate = (dateString) => {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}${month}${day}`;
-    };
-
-    const formatICSDateTime = (dateString, timeString) => {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      
-      if (timeString) {
-        const [hours, minutes] = timeString.split(':');
-        return `${year}${month}${day}T${hours}${minutes}00`;
-      }
-      return `${year}${month}${day}`;
-    };
-
-    const socioName = reservation.Socio === 'Otro' ? reservation.Otro_usuario : reservation.Socio;
-    const title = `Reserva Yate - ${socioName}`;
-    const location = `${reservation.Origen} → ${reservation.Destino}`;
-    const description = [
-      `Socio: ${socioName}`,
-      `Origen: ${reservation.Origen}`,
-      `Destino: ${reservation.Destino}`,
-      reservation.Regresa_al_origen ? 'Ida y Vuelta: Sí' : '',
-      reservation.Notas ? `Notas: ${reservation.Notas}` : '',
-      `Creado por: ${reservation.Creado_por}`
-    ].filter(Boolean).join('\\n');
-
-    const startDateTime = formatICSDateTime(reservation.Fecha_salida, reservation.hora_salida);
-    const endDateTime = formatICSDateTime(reservation.Fecha_regreso, reservation.Hora_regreso);
-    const hasTime = reservation.hora_salida || reservation.Hora_regreso;
-
-    const icsContent = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//Sistema Reservas Yate//ES',
-      'BEGIN:VEVENT',
-      `UID:${reservation.id}@yate-reservas`,
-      `DTSTAMP:${formatICSDate(reservation.Fecha_salida)}`,
-      hasTime ? `DTSTART:${startDateTime}` : `DTSTART;VALUE=DATE:${startDateTime}`,
-      hasTime ? `DTEND:${endDateTime}` : `DTEND;VALUE=DATE:${endDateTime}`,
-      `SUMMARY:${title}`,
-      `LOCATION:${location}`,
-      `DESCRIPTION:${description}`,
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].join('\r\n');
-
-    const fileName = `reserva-yate-${socioName}-${formatICSDate(reservation.Fecha_salida)}.ics`;
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    
-    if (navigator.share && navigator.canShare) {
-      try {
-        const file = new File([blob], fileName, { type: 'text/calendar' });
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            files: [file],
-            title: title,
-            text: `Reserva del yate: ${socioName}`
-          });
-          return;
-        }
-      } catch (err) {
-        if (err.name !== 'AbortError') {
-          console.log('Share failed, falling back to download');
-        } else {
-          return;
-        }
-      }
-    }
-    
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
+  const formatICSDate = (dateString) => {
+    const date = new Date(dateString + 'T00:00:00');
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
   };
+
+  const formatICSDateTime = (dateString, timeString) => {
+    const date = new Date(dateString + 'T00:00:00');
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    if (timeString) {
+      const [hours, minutes] = timeString.split(':');
+      return `${year}${month}${day}T${hours}${minutes}00`;
+    }
+    return `${year}${month}${day}`;
+  };
+
+  const socioName = reservation.Socio === 'Otro' ? reservation.Otro_usuario : reservation.Socio;
+  const title = `Reserva Pearl Cat - ${socioName}`;
+  const location = `${reservation.Origen} → ${reservation.Destino}`;
+  const description = [
+    `Socio: ${socioName}`,
+    `Origen: ${reservation.Origen}`,
+    `Destino: ${reservation.Destino}`,
+    reservation.Regresa_al_origen ? 'Ida y Vuelta: Sí' : '',
+    reservation.Notas ? `Notas: ${reservation.Notas}` : '',
+    `Creado por: ${reservation.Creado_por}`
+  ].filter(Boolean).join('\\n');
+
+  const startDateTime = formatICSDateTime(reservation.Fecha_salida, reservation.hora_salida);
+  const endDateTime = formatICSDateTime(reservation.Fecha_regreso, reservation.Hora_regreso);
+  const hasTime = reservation.hora_salida || reservation.Hora_regreso;
+
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Pearl Cat Reservations//ES',
+    'BEGIN:VEVENT',
+    `UID:${reservation.id}@pearlcat-reservas`,
+    `DTSTAMP:${formatICSDate(reservation.Fecha_salida)}`,
+    hasTime ? `DTSTART:${startDateTime}` : `DTSTART;VALUE=DATE:${startDateTime}`,
+    hasTime ? `DTEND:${endDateTime}` : `DTEND;VALUE=DATE:${endDateTime}`,
+    `SUMMARY:${title}`,
+    `LOCATION:${location}`,
+    `DESCRIPTION:${description}`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  
+  // En iOS, crear un link y hacer click automáticamente funciona mejor
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `reserva-pearlcat-${socioName}-${formatICSDate(reservation.Fecha_salida)}.ics`;
+  link.setAttribute('target', '_blank');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  // Limpiar después de un momento
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+};
 
   if (loading) {
     return (
