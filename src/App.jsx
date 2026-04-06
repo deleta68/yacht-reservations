@@ -58,7 +58,7 @@ const YachtReservationSystem = () => {
   const loadReservations = async () => {
     try {
       setLoading(true);
-      const data = await supabaseRequest('reservations?order=fecha_salida.asc');
+      const data = await supabaseRequest('reservations?order=Fecha_salida.asc');
       setReservations(data || []);
     } catch (error) {
       console.error('Error loading reservations:', error);
