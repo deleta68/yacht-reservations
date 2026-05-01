@@ -1,0 +1,13 @@
+name: Keep Supabase Active
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'  # Lunes a las 12pm UTC cada semana
+  workflow_dispatch:  # Permite ejecutarlo manualmente
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping App
+        run: curl https://reservas-pearlcat.netlify.app
