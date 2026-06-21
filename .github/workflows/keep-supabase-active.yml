@@ -12,4 +12,5 @@ jobs:
       - name: Ping Supabase Database
         env:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: curl -X GET "https://wjrdjfiuvffbqseeflvr.supabase.co/rest/v1/reservations?limit=1" -H "apikey: $SUPABASE_KEY" -H "Authorization: Bearer $SUPABASE_KEY"
+        run: |
+          curl -X GET "https://wjrdjfiuvffbqseeflvr.supabase.co/rest/v1/reservations?limit=1" -H "apikey: ${SUPABASE_KEY}" -H "Authorization: Bearer ${SUPABASE_KEY}"
