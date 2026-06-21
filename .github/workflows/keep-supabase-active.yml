@@ -10,7 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Supabase Database
-        run: |
-          curl -X GET 'https://wjrdjfiuvffbqseeflvr.supabase.co/rest/v1/reservations?limit=1' \
-          -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqcmRqZml1dmZmYnFzZWVmbHZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDE1NjgsImV4cCI6MjA5MDkxNzU2OH0.yDSVFvOrgkq3y0f0X-ZYIlBbkF8AY5D7XD3YZUVk9qI" \
-          -H "Authorization: Bearer
+        run: curl -X GET "https://wjrdjfiuvffbqseeflvr.supabase.co/rest/v1/reservations?limit=1" -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqcmRqZml1dmZmYnFzZWVmbHZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDE1NjgsImV4cCI6MjA5MDkxNzU2OH0.yDSVFvOrgkq3y0f0X-ZYIlBbkF8AY5D7XD3YZUVk9qI" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqcmRqZml1dmZmYnFzZWVmbHZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDE1NjgsImV4cCI6MjA5MDkxNzU2OH0.yDSVFvOrgkq3y0f0X-ZYIlBbkF8AY5D7XD3YZUVk9qI"
